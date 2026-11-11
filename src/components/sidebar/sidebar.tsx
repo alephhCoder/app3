@@ -3,8 +3,8 @@ import { UniversalCom } from "../universalBtns";
 
 export function Sidebar({panel, setpanel}) {
 
-    console.log(panel)
+    
     return (
-        <UniversalCom clicked={() => setpanel(!panel)} panel={"left"} icon={<PanelLeft />} />
+        <UniversalCom clicked={() => setpanel(!panel)} panelset="left" panel={panel} panelMerge={true} icon={<PanelLeft />} text="AllApps!" oclass={`${panel && 'gap-20'}`} />
     )
 }

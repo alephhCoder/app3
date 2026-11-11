@@ -4,10 +4,18 @@ import { Bug } from 'lucide-react'
 import { Mainbar } from './components/mainbar/mainbar'
 import { Sidebar } from './components/sidebar/sidebar'
 import { twMerge } from 'tailwind-merge'
+import type { Tags } from './components/types'
 
 function App() {
   const [panel, setpanel] = useState(false)
+  const [tags, setTags] = useState<Tags[]>([])
 
+  function createTag(title:string,color:string) {
+  const id = Date.now() 
+  setTags([...tags, {id, title, color}])
+  return id
+  }
+  
   return (
     <>
       <div className={`grid h-dvh animationOne  ${panel ? 'lg:grid-cols-[min(12.25rem,60vw)_1fr] ' : ' lg:grid-cols-[3.125rem_1fr]'} grid-rows-[4rem_1fr] grid-cols-[3.125rem_1fr]`}>
@@ -25,7 +33,7 @@ function App() {
           <UniversalCom icon={<Bug />} clicked={() => console.log("work")}/>
         </div>
         <div className={twMerge(`flex  mt-3 lg:col-start-2 animationOne ${panel ? 'justify-center' : 'justify-start pl-4'}`)}>
-          <Mainbar />
+          <Mainbar createTag={createTag} />
         </div>
       </div>
     </>
