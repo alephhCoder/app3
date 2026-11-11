@@ -40,9 +40,7 @@ html, body, #root {
   .borderLeft {
     @apply
     border border-b-0 border-t-0 border-l-stroke border-r-0
-    
   }
-
   .borderRight {
     @apply
     border border-b-0 border-t-0 border-l-0 border-r-stroke
@@ -54,7 +52,7 @@ html, body, #root {
   .highlight {
     @apply transition-all duration-75
   }
-  .hightlight:hover {
+  .highlight:hover {
     @apply brightness-75
   }
   .highlightTwo {
@@ -65,5 +63,12 @@ html, body, #root {
   }
   .animationOne {
     @apply transition-all duration-75
+  }
+
+  .centered {
+    @apply flex justify-center items-center
+  }
+  .selfcentered {
+    @apply flex justify-self-center self-center
   }
 }
