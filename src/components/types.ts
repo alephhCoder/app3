@@ -3,7 +3,7 @@ export type ListProps = {
         check: boolean
         title: string
         dueDate?: string
-        tagId?: string[]
+        tagIds: number[]
      }
 export type Tags = {
         id: number

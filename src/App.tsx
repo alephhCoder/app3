@@ -33,7 +33,7 @@ function App() {
           <UniversalCom icon={<Bug />} clicked={() => console.log("work")}/>
         </div>
         <div className={twMerge(`flex  mt-3 lg:col-start-2 animationOne ${panel ? 'justify-center' : 'justify-start pl-4'}`)}>
-          <Mainbar createTag={createTag} />
+          <Mainbar createTag={createTag} tags={tags} />
         </div>
       </div>
     </>

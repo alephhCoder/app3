@@ -15,12 +15,15 @@ type defaultProps = {
 
     clicked: () => void;
 }
+type Option = { id:number, label:string, color:string }
+
 type selectProps = {
     oclass?: string
     name: string
     color: string
-
-    divOne: () => void
+    options: Option[]
+    
+    onSelect: (option: Option) => void
     clicked?: () => void
 }
 
@@ -50,7 +53,7 @@ export function UniversalCom({icon, text, panel, panelset, panelMerge, oclass, n
         </div>
     )
 }
-export function UniversalSel({oclass, name, color, clicked}: selectProps) {
+export function UniversalSel({oclass, name, color, options, onSelect, clicked}: selectProps) {
     const [openSel, setOpen] = useState(false)
     
     return (
@@ -65,6 +68,12 @@ export function UniversalSel({oclass, name, color, clicked}: selectProps) {
         </div>
         {openSel && (
             <div className="w-23 h-fit bg-default rounded border border-stroke cursor-pointer mt-1">
+                {options.map(option => (
+                    <div key={option.id} className="w-full h-5 border border-stroke borderTop flex items-center cursor-pointer" onClick={() => onSelect(option)}>
+                        <span className="text-xs ml-1 ">{option.label}</span> <div className={`h-4 w-4 rounded border border-stroke ml-auto mr-1 `} style={{backgroundColor: option.color}}></div>
+                    </div>
+                ))}
+
                 <div className="w-full h-5 border border-stroke borderTop flex centered cursor-pointer" onClick={clicked}>
                     <span className="text-xs">Create New</span>
                 </div>

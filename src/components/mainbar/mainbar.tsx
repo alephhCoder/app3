@@ -5,9 +5,10 @@ import { StickyNoteCheck } from "lucide-react";
 import { HexColorPicker } from "react-colorful";
 
  type MainbarProps = {
+    tags: Tags[]
     createTag: (title: string, color: string) => number
  }
-export function Mainbar({createTag}: MainbarProps) {
+export function Mainbar({createTag, tags}: MainbarProps) {
      const [list, setList] = useState<ListProps[]>([])
      const [editId, setEditId] = useState<number | null>(null)
      const [showOne, setShowOne] = useState(false)
@@ -17,14 +18,31 @@ export function Mainbar({createTag}: MainbarProps) {
 
      function addList() {
         const newId = Date.now()
-        setList([...list, {id: newId, title: "", check: false}])
+        setList([...list, {id: newId, title: "", check: false, tagIds: []}])
         setEditId(newId)
         console.log("clicked")
      }
      function newTag() {
         setShowOne(!showOne)
      }
+     function saveTag()  {
+        createTag(tagTitle, tagColor)
+        setShowOne(false)
+        setColorPop(false)
+        setTagColor("#fafafa")
+        setTagTitle("")
+     }
+     function toggleTag(id: number) {
+        setList(list.map(task => {
+            if (task.id !== id) return task
 
+            const newTagId = task.tagIds.includes(id) ?
+            task.tagIds.filter(exist => exist !== id) :
+            [...task.tagIds, id]
+
+            return {...task, tagIds: newTagId}
+     }))
+     }
      console.log(list)
     return (
         <>
@@ -33,7 +51,7 @@ export function Mainbar({createTag}: MainbarProps) {
 
 
         {list.map(item => (
-            <div className="h-14 w-full centered border border-stroke borderBottom rounded-lg mb-2" key={item.id}>
+            <div className="h-16 w-full centered border border-stroke borderBottom rounded-lg mb-2" key={item.id}>
             {editId === item.id ? (
                     <div className="grid grid-rows-2 w-full h-full">
                         <div className="flex items-center gap-2">
@@ -41,12 +59,13 @@ export function Mainbar({createTag}: MainbarProps) {
                             <UniversalCom icon={<StickyNoteCheck />} clicked={() => {setEditId(null), setShowOne(false), setColorPop(false), setTagColor("#fafafa")}} iconClass="w-4 h-4" nclass="w-5 h-5" oclass="ml-auto mr-2" />
                         </div>
                         <div>
-                            <UniversalSel name="Tags" color="#808080" clicked={() => newTag()}/>
+                            <UniversalSel name="Tags" color="#808080" clicked={() => newTag()} oclass="ml-6 mt-1" onSelect={option => toggleTag(option.id)}  options={tags.map(t => ({id: t.id, label: t.title, color: t.color}) )} />
                                 {showOne && (
+                                    
                                     <div className="w-fit h-5 bg-default rounded border border-stroke cursor-pointer mt-1 flex flex-row items-center">
                                         <input placeholder="Tag title..." className="pb-1 pl-1 text-xs centered w-20 " value={tagTitle} onChange={(e) => setTagTitle(e.target.value)}/>
                                         <div className={`h-4 w-4 rounded border border-stroke mr-0.5 ml-1 `} style={{backgroundColor: tagColor}} onClick={() => setColorPop(!colorPop)}></div>
-                                        <UniversalCom icon={<StickyNoteCheck />} clicked={() => {setShowOne(false), setColorPop(false), setTagColor("#fafafa")}} iconClass="w-4 h-4" nclass="w-4 h-4" oclass="ml-1 mr-0.5" />
+                                        <UniversalCom icon={<StickyNoteCheck />} clicked={() => {saveTag()}} iconClass="w-4 h-4" nclass="w-4 h-4" oclass="ml-1 mr-0.5" />
                                     </div>
                                 )}
                                 {colorPop && (
